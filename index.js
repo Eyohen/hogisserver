@@ -10,7 +10,11 @@ const paystackRoutes = require('./routes/paystack');
 const app = express();
 const port = process.env.API_PORT || 8000;
 
-app.use(cors({ origin: process.env.FRONTEND_URL || 'http://localhost:5183' }));
+const allowedOrigins = (process.env.FRONTEND_URL || 'http://localhost:5173,http://localhost:5183')
+  .split(',')
+  .map((origin) => origin.trim());
+
+app.use(cors({ origin: allowedOrigins }));
 app.use(helmet());
 app.use(morgan('combined'));
 app.use(express.json({ limit: '1mb' }));
